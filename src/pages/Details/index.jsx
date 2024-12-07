@@ -7,34 +7,74 @@ import { LinkText } from '../../components/LinkText'
 import { Rating } from '../../components/Rating'
 import { Tag } from '../../components/Tag'
 
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+
+import { useAuth } from '../../hooks/auth'
+import { api } from '../../services/api'
+
+import avatarPlaceholder from '../../assets/avatar_placeholder.svg'
+
+import moment from 'moment-timezone'
+
 export function Details(){
+    const [data, setData] = useState({})
+
+    const params = useParams()
+
+    const { user } = useAuth()
+
+    const avatarURL = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : avatarPlaceholder
+
+    const formattedDate = moment.utc(data.updated_at).tz("America/Sao_Paulo").format("DD/MM/YYYY HH:mm:ss")
+
+    const navigate = useNavigate()
+
+    function handleBack(){
+        navigate(-1)
+    }
+
+    useEffect(() => {
+        async function fetchMovie(){
+            const response = await api.get(`/notes/${params.id}`)
+            setData(response.data)
+        }
+
+        fetchMovie()
+    }, [])
+
     return(
         <Container>
             <Header />
+            { data && (
             <Content>
                 <Informations>
-                    <LinkText />
+                    <LinkText onClick={handleBack} />
                     
                     <Title>
-                        <h1>Homem de Ferro</h1>
-                        <Rating grade={4} />
+                        <h1>{data.title}</h1>
+                        <Rating grade={data.rating} />
                     </Title>
 
                     <Author>
-                        <img src="https://github.com/marcoslucas28.png" alt="Foto do usuário" />
-                        <span>Por Marcos Lucas</span>
+                        <img src={avatarURL} alt={user.name} />
+                        <span>Por {user.name}</span>
 
                         <MdOutlineWatchLater />
-                        <span>29/07/2024 às 08:00</span>
+                        <span>{formattedDate}</span>
                     </Author>
                 </Informations>
                 
-                <Tags>
-                    <Tag name="Super-Heroi" />
-                </Tags>
+                {data.tags && (
+                    <Tags>
+                        {data.tags.map((tag) => (
+                            <Tag key={String(tag.id)} name={tag.name} /> 
+                        ))}
+                    </Tags>
+                )}
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores corporis repellat incidunt numquam quasi laborum dolor itaque. Debitis, voluptate! Numquam delectus officia alias corporis tenetur ipsam perspiciatis veritatis aspernatur voluptatum!</p>
-            </Content>
+                <p>{data.description}</p>
+            </Content>)}
         </Container>
     )
 }

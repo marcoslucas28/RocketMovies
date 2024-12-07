@@ -6,10 +6,10 @@ export const Container = styled.div`
     justify-content: center;
     padding: 10px;
 
-    background-color: ${({theme, isNew}) => isNew ? "transparent" : theme.COLORS.BLACK_700};
-    color: ${({theme, isNew}) => isNew ? theme.COLORS.GRAY_800 : "white"};
+    background-color: ${({theme, $isnew}) => $isnew ? "transparent" : theme.COLORS.BLACK_700};
+    color: ${({theme, $isnew}) => $isnew ? theme.COLORS.GRAY_800 : "white"};
 
-    border: ${({theme, isNew}) => isNew ? `1px dashed ${theme.COLORS.GRAY_800}` : "none"};
+    border: ${({theme, $isnew}) => $isnew ? `1px dashed ${theme.COLORS.GRAY_800}` : "none"};
     border-radius: 10px;
 
     > button {
@@ -27,10 +27,10 @@ export const Container = styled.div`
         background: transparent;
         border: none;
         font-size: 16px;
-        color: ${({theme, isNew}) => isNew ? theme.COLORS.GRAY_800 : "white"};
+        color: ${({theme, $isnew}) => $isnew ? theme.COLORS.GRAY_800 : "white"};
 
         &:placeholder {
-            color: ${({theme, isNew}) => isNew ? theme.COLORS.GRAY_800 : "white"};
+            color: ${({theme, $isnew}) => $isnew ? theme.COLORS.GRAY_800 : "white"};
             }
         
     }

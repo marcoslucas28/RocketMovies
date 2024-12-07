@@ -2,9 +2,10 @@ import { Container } from './styles'
 
 import { FiArrowLeft } from 'react-icons/fi'
 
-export function LinkText(){
+export function LinkText({onClick}){
+
     return(
-        <Container to="/">
+        <Container onClick={onClick}>
             <FiArrowLeft />
             Voltar
         </Container>

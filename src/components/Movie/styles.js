@@ -7,6 +7,7 @@ export const Container = styled.div`
     margin-bottom: 10px;
     width: 100%;
     border-radius: 15px;
+    cursor: pointer;
 
 
     > p {
