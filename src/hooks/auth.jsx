@@ -54,6 +54,7 @@ function AuthProvider({children}){
                 alert(error.response.data.message)
             } else {
                 alert("Não foi possivel entrar.")
+                console.log(error)
             }
         }
     }
